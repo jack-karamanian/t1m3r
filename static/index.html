@@ -16,7 +16,10 @@
           5 minutes
         </button>
       </header>
-      <div id="time" class="flex flex-grow items-center text-7xl font-mono">
+      <div
+        id="timer-display"
+        class="flex flex-grow items-center text-7xl font-mono"
+      >
         <h1 id="minutes">05</h1>
         <h1>:</h1>
         <h1 id="seconds">00</h1>
@@ -37,13 +40,15 @@
       }
 
       document.addEventListener("DOMContentLoaded", () => {
+        const timerDisplay = document.getElementById("timer-display");
         const fiveMinutes = document.getElementById("five-minutes");
         const startPauseButton = document.getElementById("start-pause-button");
 
         const minutesText = document.getElementById("minutes");
         const secondsText = document.getElementById("seconds");
 
-        let interval;
+        let countDownInterval;
+        let blinkInterval;
         let running = false;
         let remainingTime = 0;
 
@@ -51,12 +56,18 @@
           if (running) {
             running = false;
             startPauseButton.innerText = "Start";
-            clearInterval(interval);
+            clearInterval(countDownInterval);
           }
+        }
+
+        function stopBlink() {
+          clearInterval(blinkInterval);
+          timerDisplay.style.opacity = "1";
         }
 
         function makeMinutesEventListener(minutes, seconds) {
           return function () {
+            stopBlink();
             stop();
             remainingTime = (minutes * 60 + seconds) * 1000;
             minutesText.innerText = padZero(minutes);
@@ -68,6 +79,7 @@
 
         startPauseButton.addEventListener("click", () => {
           if (!running) {
+            stopBlink();
             running = true;
             startPauseButton.innerText = "Pause";
 
@@ -76,12 +88,20 @@
                 Number(secondsText.innerText)) *
               1000;
 
-            interval = setInterval(() => {
+            countDownInterval = setInterval(() => {
               remainingTime -= 1000;
               minutesText.innerText = padZero((remainingTime / 1000 / 60) | 0);
               secondsText.innerText = padZero((remainingTime / 1000) % 60);
               if (remainingTime <= 0) {
                 stop();
+                blinkInterval = setInterval(() => {
+                  const currentOpacity = Number(
+                    timerDisplay.style.opacity === ""
+                      ? 1
+                      : timerDisplay.style.opacity
+                  );
+                  timerDisplay.style.opacity = String(~currentOpacity & 1);
+                }, 650);
               }
             }, 1000);
             return;
