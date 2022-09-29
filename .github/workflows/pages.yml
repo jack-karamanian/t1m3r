@@ -33,12 +33,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Generate Tailwind CSS
-        run: npx tailwindcss -i ./css/tailwind.css -m -o ./static/output.css
+        run: |
+          npm ci
+          npx tailwindcss -i ./css/tailwind.css -m -o ./static/output.css
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: './static'
+          path: "./static"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
