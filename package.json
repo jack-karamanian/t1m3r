@@ -13,7 +13,7 @@
     "url": "https://github.com/jack-karamanian/t1m3r/issues"
   },
   "homepage": "https://github.com/jack-karamanian/t1m3r#readme",
-  "dependencies": {
+  "devDependencies": {
     "tailwindcss": "^3.1.8"
   }
 }
