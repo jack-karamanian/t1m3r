@@ -57,10 +57,10 @@
 
         function makeMinutesEventListener(minutes, seconds) {
           return function () {
+            stop();
             remainingTime = (minutes * 60 + seconds) * 1000;
             minutesText.innerText = padZero(minutes);
             secondsText.innerText = padZero(seconds);
-            stop();
           };
         }
 
