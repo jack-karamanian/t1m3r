@@ -47,8 +47,6 @@
         let running = false;
         let remainingTime = 0;
 
-        fiveMinutes.addEventListener("click", makeMinutesEventListener(5, 0));
-
         function stop() {
           if (running) {
             running = false;
@@ -65,6 +63,8 @@
             stop();
           };
         }
+
+        fiveMinutes.addEventListener("click", makeMinutesEventListener(5, 0));
 
         startPauseButton.addEventListener("click", () => {
           if (!running) {
